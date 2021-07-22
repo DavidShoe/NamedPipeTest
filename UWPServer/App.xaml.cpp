@@ -8,7 +8,9 @@
 
 using namespace UWPServer;
 
+using namespace concurrency;
 using namespace Platform;
+using namespace Platform::Collections;
 using namespace Windows::ApplicationModel;
 using namespace Windows::ApplicationModel::Activation;
 using namespace Windows::Foundation;
@@ -21,6 +23,10 @@ using namespace Windows::UI::Xaml::Input;
 using namespace Windows::UI::Xaml::Interop;
 using namespace Windows::UI::Xaml::Media;
 using namespace Windows::UI::Xaml::Navigation;
+using namespace Windows::Storage::Streams;
+using namespace Windows::System;
+
+
 
 /// <summary>
 /// Initializes the singleton application object.  This is the first line of authored code
@@ -39,6 +45,19 @@ App::App()
 /// <param name="e">Details about the launch request and process.</param>
 void App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs^ e)
 {
+    auto LaunchUser = e->User;
+    if (LaunchUser != nullptr)
+    {
+        auto desiredProperties = ref new Vector<String^>();
+        desiredProperties->Append(KnownUserProperties::AccountName);
+        // Issue a bulk query for all of the properties above.
+        auto task = create_task(LaunchUser->GetPropertiesAsync(desiredProperties->GetView()));
+        task.then([this, desiredProperties, LaunchUser](IPropertySet^ values)
+            {
+                auto name = values->Lookup(KnownUserProperties::AccountName);
+            });
+    }
+
     auto rootFrame = dynamic_cast<Frame^>(Window::Current->Content);
 
     // Do not repeat app initialization when the Window already has content,

@@ -11,6 +11,7 @@
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button Content="Create Pipe" Click="OnCreatePipeClick"/>
+            <TextBlock x:Name="_Status" Text="..."/>
         </StackPanel>
     </Grid>
 </Page>

@@ -19,7 +19,6 @@ int main()
     
     WCHAR lpszPipename[] = TEXT("\\\\.\\pipe\\LOCAL\\foo");
 
-
     // Try to open a named pipe; wait for it, if necessary. 
 
     while (1)

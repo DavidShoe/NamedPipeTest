@@ -64,10 +64,13 @@ void UWPServer::MainPage::OnCreatePipeClick(Platform::Object^ sender, Windows::U
 	access[1].grfAccessMode = GRANT_ACCESS;
 	access[1].grfAccessPermissions = GENERIC_ALL;
 	access[1].grfInheritance = NO_INHERITANCE;
-	access[1].Trustee.TrusteeForm = TRUSTEE_IS_SID;
+	//access[1].Trustee.TrusteeForm = TRUSTEE_IS_SID;
+	//access[1].Trustee.TrusteeType = TRUSTEE_IS_USER;
+	//access[1].Trustee.ptstrName = (LPWCH)otherSid;
+	access[1].Trustee.TrusteeForm = TRUSTEE_IS_NAME;
 	access[1].Trustee.TrusteeType = TRUSTEE_IS_USER;
-	access[1].Trustee.ptstrName = (LPWCH)otherSid;
-
+	WCHAR             buffer[1024] = { L"dashoe@microsoft.com" };
+	access[1].Trustee.ptstrName = buffer;// "dashoe@microsoft.com";// App::LaunchUser->Data();
 	PACL acl{ 0 };
 	auto r4 = SetEntriesInAcl(2, access, nullptr, &acl);
 
@@ -94,12 +97,18 @@ void UWPServer::MainPage::OnCreatePipeClick(Platform::Object^ sender, Windows::U
 		BUFSIZE,                  // output buffer size 
 		BUFSIZE,                  // input buffer size 
 		0,                        // client time-out 
-		nullptr); // &sa);                    // default security attribute 
+		&sa);                    // default security attribute 
 
 	DWORD lastError = 0;
 	if (m_hPipe == INVALID_HANDLE_VALUE)
 	{
 		lastError = GetLastError();
+		_Status->Text = "Error";
+	}
+	else
+
+	{
+		_Status->Text = "Pipe created";
 	}
 
 
