@@ -64,13 +64,10 @@ void UWPServer::MainPage::OnCreatePipeClick(Platform::Object^ sender, Windows::U
 	access[1].grfAccessMode = GRANT_ACCESS;
 	access[1].grfAccessPermissions = GENERIC_ALL;
 	access[1].grfInheritance = NO_INHERITANCE;
-	//access[1].Trustee.TrusteeForm = TRUSTEE_IS_SID;
-	//access[1].Trustee.TrusteeType = TRUSTEE_IS_USER;
-	//access[1].Trustee.ptstrName = (LPWCH)otherSid;
 	access[1].Trustee.TrusteeForm = TRUSTEE_IS_NAME;
 	access[1].Trustee.TrusteeType = TRUSTEE_IS_USER;
 	WCHAR             buffer[1024] = { L"dashoe@microsoft.com" };
-	access[1].Trustee.ptstrName = buffer;// "dashoe@microsoft.com";// App::LaunchUser->Data();
+	access[1].Trustee.ptstrName = buffer;
 	PACL acl{ 0 };
 	auto r4 = SetEntriesInAcl(2, access, nullptr, &acl);
 
@@ -83,8 +80,6 @@ void UWPServer::MainPage::OnCreatePipeClick(Platform::Object^ sender, Windows::U
 	sa.bInheritHandle = FALSE;
 	sa.lpSecurityDescriptor = &descriptor;
 
-	auto r7 = GetAppContainerNamedObjectPath(nullptr, nullptr, bnoLength, bno, &dummy);
-//	auto lpszPipename = ref new Platform::String((L"\\\\.\\pipe\\" + std::wstring(bno) + L"\\MyTestSharedMemory").c_str());
 	auto lpszPipename = ref new Platform::String(L"\\\\.\\pipe\\LOCAL\\foo");
 
 	m_hPipe = CreateNamedPipe(
