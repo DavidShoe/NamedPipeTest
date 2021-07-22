@@ -81,7 +81,8 @@ void UWPServer::MainPage::OnCreatePipeClick(Platform::Object^ sender, Windows::U
 	sa.lpSecurityDescriptor = &descriptor;
 
 	auto r7 = GetAppContainerNamedObjectPath(nullptr, nullptr, bnoLength, bno, &dummy);
-	auto lpszPipename = ref new Platform::String((L"\\\\.\\pipe\\" + std::wstring(bno) + L"\\MyTestSharedMemory").c_str());
+//	auto lpszPipename = ref new Platform::String((L"\\\\.\\pipe\\" + std::wstring(bno) + L"\\MyTestSharedMemory").c_str());
+	auto lpszPipename = ref new Platform::String(L"\\\\.\\pipe\\LOCAL\\foo");
 
 	m_hPipe = CreateNamedPipe(
 		lpszPipename->Data(),             // pipe name 
@@ -93,7 +94,7 @@ void UWPServer::MainPage::OnCreatePipeClick(Platform::Object^ sender, Windows::U
 		BUFSIZE,                  // output buffer size 
 		BUFSIZE,                  // input buffer size 
 		0,                        // client time-out 
-		&sa);                    // default security attribute 
+		nullptr); // &sa);                    // default security attribute 
 
 	DWORD lastError = 0;
 	if (m_hPipe == INVALID_HANDLE_VALUE)

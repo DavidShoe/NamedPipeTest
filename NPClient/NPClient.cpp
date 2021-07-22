@@ -15,7 +15,9 @@ int main()
     TCHAR  chBuf[BUFSIZE];
     BOOL   fSuccess = FALSE;
     DWORD  cbRead, cbToWrite, cbWritten, dwMode;
-    WCHAR lpszPipename[] = TEXT("\\\\.\\pipe\\mynamedpipe");
+    //WCHAR lpszPipename[] = TEXT("\\\\.\\pipe\\mynamedpipe");
+    
+    WCHAR lpszPipename[] = TEXT("\\\\.\\pipe\\LOCAL\\foo");
 
 
     // Try to open a named pipe; wait for it, if necessary. 
