@@ -80,7 +80,14 @@ void UWPServer::MainPage::OnCreatePipeClick(Platform::Object^ sender, Windows::U
 	sa.bInheritHandle = FALSE;
 	sa.lpSecurityDescriptor = &descriptor;
 
+
+
+	auto r7 = GetAppContainerNamedObjectPath(nullptr, nullptr, bnoLength, bno, &dummy);
+	OutputDebugStringW(bno);
+
+	//WCHAR lpszPipenamex[] = TEXT("AppContainerNamedObjects\\S-1-15-2-1852439461-2950083545-1915713802-4291091965-3023447011-4182446531-3405235729\\foo");
 	auto lpszPipename = ref new Platform::String(L"\\\\.\\pipe\\LOCAL\\foo");
+	//auto lpszPipename = ref new Platform::String(lpszPipenamex);
 
 	m_hPipe = CreateNamedPipe(
 		lpszPipename->Data(),             // pipe name 
