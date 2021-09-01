@@ -6,6 +6,8 @@
 #pragma once
 
 #include "MainPage.g.h"
+using namespace Windows::System::Threading;
+
 
 namespace UWPServer
 {
@@ -19,10 +21,15 @@ namespace UWPServer
 
 	private:
 		void OnCreatePipeClick(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void OnClosePipeClick(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 
-		void HandlePipe();
+		void TimerHandler(ThreadPoolTimer^ timer);
+		void TimerCanceledHandler(ThreadPoolTimer^ timer);
+
 		bool m_Quit = false;
 
-	HANDLE m_hPipe = INVALID_HANDLE_VALUE;
+		ThreadPoolTimer^ m_PeriodicTimer;
+
+		HANDLE m_hPipe = INVALID_HANDLE_VALUE;
 	};
 }
